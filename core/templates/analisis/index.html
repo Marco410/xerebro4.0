@@ -1,0 +1,352 @@
+
+  {% extends 'analisis/base.html' %}
+  {% block title %}Inicio{% endblock %}
+  {% block content %}
+  {% include 'analisis/nav.html' %}
+  {% load static %}
+<div style="padding: 20px" id="pagina_completa" >
+    <div id="notification" ></div>
+        <div class="row" >
+            <div class="col-sm-12 col-md-5" >
+                <div class="card" >
+                    <div class="card-header" ><h3 class="header " >Canales</h3></div>
+                 <div class="card-body " >
+                     <div class="col-sm-12" >
+                    <form method="post" id="form-graficar" enctype="multipart/form-data" >
+                         {% csrf_token %}
+                        <input type="hidden" value="{% url 'upload_csv' %}" />
+                        <div class="col-sm-12" >
+                            {% if activa  %}
+                            <label>Archivo TXT:</label>
+                            <label><i class="fa fa-file-text-o" aria-hidden="true"></i> {{ activa.file_name }}</label>
+                            {% endif %}
+                            <br>
+                            <label>Frecuencia de Muestreo</label>
+                            <input class="form-control"  type="number" name="fm_user" id="fm_user" /><br>
+                            <div class="divider" ></div><br>
+                            <label>Condición de Estudio</label>
+                            <select required id="condicion" name="condicion" class="form-control" >
+                                <option value="" >Seleccione:</option>
+                                <option value="1" >Condición 1</option>
+                                <option value="2" >Condición 2</option>
+                                <option value="9" >Condición 9</option>
+                            </select>
+                        </div>
+                         
+                        <label  >Seleccionar pares de canales</label>
+                        {% if activa  %}
+                        <input id="idA" value="{{ activa.id }}" type="hidden" />
+                        <input type="hidden" id="idConf" value="{{ activa.id }}" />
+                        <div class="row">
+                        <div class="col-sm-12 text-center" ><span>Configuración activa: <h5 id="name-conf"  > {{ activa.name }}</h5></span></div>
+                        </div>
+                        {% else %}
+                        <input id="idA" value="0" type="hidden" />
+                        <input type="hidden" id="idConf" value="0" />
+                        <div class="col-sm-12" ><span>Configuracion Activa<h5 id="name-conf" ></h5></span></div>
+                        {% endif %}
+                            <div class="row" >     
+                                <div class="col s6 m2" >
+                                  <div id="cb1" ></div>
+                                </div>
+                                <div class="col s6 m2" >
+                                    <div id="cb2" ></div>
+                                </div>
+                                <div class="col s6 m2" >
+                                    <div id="cb3" ></div>
+                                </div>
+                                <div class="col s6 m2" >
+                                    <div id="cb4" ></div>
+                                </div>
+                                <div class="col s6 m2" >
+                                    <div id="cb5" ></div>
+                                </div>
+                                <div class="col s6 m2" >
+                                    <div id="cb6" ></div>
+                                </div> 
+                            </div>
+                        <button class="btn btn-primary" type="button" id="btn-graficar-senal" >Graficar</button>
+                        <button id="btn-save-par" class="btn btn-primary" type="button">Guardar par</button>
+                        <button id="btn-calcular" class="btn btn-primary" type="button">Calcular Valores</button>
+                        <button id="btn-clean" class="btn btn-primary" type="button" name="action">Limpiar</button>
+                    </form><br>
+                     </div>
+                     <div class="col-sm-12" >
+                     <div class="progress">
+                          <div class="progress-bar" id="file-upload" role="progressbar"  aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>  
+                     </div>
+                     
+                    
+                </div>
+                </div>
+                
+                <div class="card" >
+                    <div class="card-header" ><h3>Análisis Gráfico</h3></div>
+                    <div class="card-body" >
+                        <h3 class="blue-grey-text darken-1" ></h3>
+                        
+                          <form method ="post" id="form-analisis" enctype="multipart/form-data" >
+                              {% csrf_token %}
+                              <div class="row" >
+                                    <div class="col-sm-12" ><h5>Ritmo:</h5></div>
+                                    <div class="col-sm-4" >
+                                        <div class="form-check ">
+                                        <input type="radio" class="form-check-input"  value="alfa" name="ritmo">
+                                        <label class="form-check-label" for="materialInline1">α Alfa</label>
+                                        </div>
+                                        <div class="form-check">
+                                          <input type="radio" class="form-check-input"  value="beta" name="ritmo">
+                                          <label class="form-check-label" for="materialInline2">β Beta</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4" >
+                                        <div class="form-check ">
+                                        <input type="radio" class="form-check-input"  value="theta" name="ritmo">
+                                        <label class="form-check-label" for="materialInline3">θ Theta</label>
+                                        </div>
+                                        <div class="form-check ">
+                                          <input type="radio" class="form-check-input"  value="gammaL" name="ritmo">
+                                          <label class="form-check-label" for="materialInline3">γ Gamma Baja</label>
+                                        </div> 
+                                    </div>
+                                    <div class="col-sm-4" >
+                                         <div class="form-check ">
+                                            <input type="radio" class="form-check-input"  value="gammaH" name="ritmo">
+                                          <label class="form-check-label" for="materialInline3">γ Gamma Alta</label>
+                                        </div>  
+                                        <div class="form-check ">
+                                          <input type="radio" class="form-check-input"  value="delta" name="ritmo">
+                                          <label class="form-check-label" for="materialInline3">Δ Delta</label>
+                                        </div>
+                                    </div>
+                                
+                              </div><br>
+                              <div class="row" >
+                              <div class="col-sm-6" >
+                                  <h5>Dominio Tiempo</h5>
+                                  <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="time" >
+                                  <label class="form-check-label" for="time1">
+                                    Correlación
+                                  </label>
+                                  </div>
+                                  <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="time" >
+                                  <label class="form-check-label" for="time1">
+                                    Señales EEG
+                                  </label>
+                                  </div><br>
+                                  <button class="btn btn-primary btn-block m" id="btn-graficar-cs" ><i style="color: white" class="fa fa-send" ></i> 
+                                   Analizar</button>
+                              </div>
+                              <div class="col-sm-6" >
+                                  <h5>Frecuencia</h5>
+                                 <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="frec"  value="option1">
+                                  <label class="form-check-label" for="frec1">
+                                    PSD
+                                  </label>
+                                  </div>
+                                  <div class="form-check">
+                                  <input class="form-check-input" type="radio" name="frec"  value="option1">
+                                  <label class="form-check-label" for="frec1">
+                                    Coherencia
+                                  </label>
+                                  </div><br>
+                                  <button class="btn btn-primary btn-block m" type="button" id="btn-graficar-pc" ><i style="color: white" class="fa fa-send" ></i> 
+                                   Analizar</button>
+                              </div>
+                             </div>
+                              
+                              
+                               
+                        </form>
+                           
+                    </div>    
+                </div>
+            </div>
+
+            <div class="col-sm-12 col-md-7">
+                <div class="card" >
+                 <div class="card-body"  >
+                     <ul class="nav nav-tabs" id="myTab" role="tablist">
+                          <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="chart-tab" data-toggle="tab" href="#chart" role="tab" aria-controls="chart" aria-selected="true">Gráfica</a>
+                          </li>
+                          <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="tablet-tab" data-toggle="tab" href="#tablet" role="tab" aria-controls="tablet" aria-selected="false">Tabla</a>
+                          </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                          <div class="tab-pane fade text-center" id="chart" role="tabpanel" aria-labelledby="chart-tab">
+                            <div class="col-sm-12" >
+                               <h4 class="header blue-grey-text darken-1" >Respuesta en el Dominio del Tiempo</h4>
+                                <img class="img-fluid" id="img-senal" src="{% static '/core/senales/' %}{{ image }}" width="600px" height="300px" alt="señal" />
+                                <img class="img-fluid" id="img-senal" src="{% static '/core/senales/' %}{{ image }}" width="600px" height="300px" alt="señal" />
+                              </div>
+                           <br>
+                             <div class="col-sm-12" >
+                              <h5 class="blue-grey-text darken-1">Respuesta en el Dominio de la Frecuencia</h5>
+                                <img class="img-fluid"  src="{% static '/core/senales/'  %}{{ image }}" width="600px" height="300px" alt="señal" />
+                                 <img class="img-fluid"  src="{% static '/core/senales/'  %}{{ image }}" width="600px" height="300px" alt="señal" />
+                              </div> 
+                            
+                        </div>
+                          <div class="tab-pane fade  show active" id="tablet" role="tabpanel" aria-labelledby="tablet-tab">
+                              <br><div class="col-sm-12 text-center" id="btn-excel" hidden ><button class='btn btn-success btn-get-table' type='button' id='btn-m-excel' >Descargar tabla en Excel</button></div><br>
+                              <h4>PDS por Banda</h4>
+                              
+                              
+                              <div class="col-sm-12" id="tabla_res" ></div>
+                              <div class="col-sm-12" style="">
+                              
+                               <table id="main-table" class="table table-striped " style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2" >Canales</th>
+                                              <th colspan="2" >α Alfa</th>
+                                              <th colspan="2" >β Beta</th>
+                                              <th colspan="2">θ Theta</th>
+                                              <th colspan="2">γ Gamma Baja</th>
+                                              <th colspan="2">γ Gamma Alta</th>
+                                              <th rowspan="2">Opc.</th>
+                                        </tr>
+                                      <tr>
+                                          <th>Correlacion A</th>
+                                          <th>Coherencia  A</th>
+                                          <th>Correlacion B</th>
+                                          <th>Coherencia  B</th>
+                                          <th>Correlacion T</th>
+                                          <th>Coherencia  T</th>
+                                          <th>Correlacion GB</th>
+                                          <th>Coherencia  GB</th>
+                                          <th>Correlacion GH</th>
+                                          <th>Coherencia  GH</th>
+                                      </tr>
+                                    </thead>
+
+                                    <tbody id="info" >
+                                    </tbody>
+                                  </table>
+                              </div>
+                              <div class="col-sm-12" >
+                                
+                                {% if tables %}
+                                <p>Tablas Disponibles:</p>
+                                {% for ta in tables %}
+                                <button class="btn btn-primary btn-get-table" data-name="{{ ta.name_tabla }}" title="Fecha: {{ ta.created_at }}"  data-id="{{ ta.id }}" >{{ ta.name_tabla }}</button>
+                                {% endfor %}
+                                {% else %}
+                                <p>Aún no tienes tablas guardadas.</p>
+                                {% endif %}
+                              </div>
+                            </div>
+                        </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+  <!-- Nuevo Modal -->
+            <div class="modal fade" id="modalConf" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Xerebro Configuración</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                      <div class="container-fluid" >
+                        <div class="row" >
+                              <div class="col-sm-9" >
+                              <p>Configuraciones disponibles:</p>
+                                {% if configs %}
+                                {% for conf in configs %}
+                                <button class="btn btn-primary btn-get-config" data-name="{{ conf.name }}" title="Canales: {{ conf.canales }}"  data-id="{{ conf.id }}" >{{ conf.name }}</button>
+                                {% endfor %}
+                                {% else %}
+                                <p>Aún no tienes configuraciones guardadas.</p>
+                                {% endif %}
+                              </div>
+                              <div class="col-sm-3 text-center" >
+                                <button class="btn btn-info" id="btn-new-conf" >Crear Nueva</button>
+                              </div>
+                        </div><br>
+                        <div class="divider" ></div><br>
+                         <div id="card-new-conf" style="display: none" >
+                            <form  method="post"  id="form-insert-config" enctype="multipart/form-data"    >
+                                {% csrf_token %} 
+                                 <div class="row" >
+                                         <div class="col-sm-12" >
+                                             <label>Cargar Archivo TXT:</label>
+                                         <input type="file" id="file" class="form-control" name="file_name" accept=".txt"  >
+                                         </div>
+                                        <div class="col-sm-4" >
+                                            <label for="no_canales">Número de Canales</label>
+                                            <input id="no_canales" name="no_canales" type="number" min="1" max="18" class="form-control" required >
+                                        </div>
+                                        <div class="col-sm-3" >
+                                            <label>-</label><br>
+                                            <button type="button" class="btn btn-sm btn-info btn-block" id="btn-add-ch" > <i class="fa fa-plus" ></i> Cargar Canales</button>
+                                        </div>
+                                        <div class="col-sm-5 pull-right" >
+                                            <label for="name_c">Nombre de la Configuración</label>
+                                            <input id="name_c" name="name_c" type="text" class="form-control" placeholder="Inserta Nombre" required >
+                                        </div>
+                                </div>
+                             
+                                <div class="row" >
+                                    <div class="col-sm-12" >
+                                         
+                                    <p>Asignar nombres de electrodo de cada canal:</p>
+                                        </div>
+                                        <div class="col-sm-4 col-md-2 " >
+                                          <div id="qcb1" ></div>
+
+                                        </div>
+
+                                        <div class="col-sm-4 col-md-2 " >
+                                            <div id="qcb2" ></div>
+                                        </div>
+                                        <div class="col-sm-4 col-md-2 " >
+                                            <div id="qcb3" ></div>
+
+                                        </div>
+
+                                        <div class="col-sm-4 col-md-2 " >
+                                            <div id="qcb4" ></div>
+                                        </div>
+
+                                        <div class="col-sm-4 col-md-2 " >
+                                            <div id="qcb5" ></div>
+                                        </div>
+
+                                        <div class="col-sm-4 col-md-2 " >
+                                            <div id="qcb6" ></div>
+                                        </div> 
+                                </div>
+                                <div class="row" >
+                                  <div class="col-sm-12 text-center" >
+                                    <button type="button" id="btn-insert-conf" class="btn btn-sm btn-info btn-block " style="border-radius: 15px" > Guardar Nueva Configuración <i class="fa fa-save" ></i></button>
+                                  </div>
+                                  </div> 
+                                   
+                              </form>
+                           </div>
+                    </div>
+                    </div>
+                  <div class="modal-footer ">
+                    <p class="center" >Derechos Reservados TecNM | Intituto Tecnologico de Morelia | CIBIMI <i class="fa fa-copyright" aria-hidden="true"></i> 2020</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+</div>
+
+ {% endblock content %}

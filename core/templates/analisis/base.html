@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+    {% load static %}    
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %} " />
+        <link type="text/css" rel="stylesheet" href="{% static 'core/css/site.css' %} " />
+        <link type="text/css" rel="stylesheet" href="{% static 'core/plugins/datatables/dataTables.bootstrap4.min.css' %} " />
+        <link type="text/css" rel="stylesheet" href="{% static 'core/plugins/izitoast/css/iziToast.min.css' %} " />
+        <link type="text/css" rel="stylesheet" href="{% static 'core/css/font-awesome-4.7.0/css/font-awesome.min.css' %} " />
+        
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        
+        <title>Xerebro | {% block title %}{% endblock %}</title>
+    </head>
+
+    <body>
+    
+         <main>
+         <div class="contenedor_load text-center" id="contenedor_load" >
+            <img class="img-fluid loader"  src="{% static '/core/assets/'  %}loader.gif" width="60px" height="60px" alt="cargando" />
+        </div>
+    {% block content %}
+    {% endblock %}
+        </main>   
+        <script type="text/javascript" src=" {% static 'core/js/jquery-3.5.1.min.js' %} "></script>
+        <script type="text/javascript" src=" {% static 'core/js/jquery.validate.js' %} "></script>
+        <script type="text/javascript" src=" {% static 'core/js/js.cookie.js' %} "></script>
+        <script type="text/javascript" src=" {% static 'core/js/axios.min.js' %} "></script>
+        <script type="text/javascript" src=" {% static 'core/js/bootstrap.min.js' %} "></script>
+        <script type="text/javascript" src=" {% static 'core/plugins/datatables/datatables.min.js' %} "></script>
+        <script type="text/javascript" src=" {% static 'core/plugins/datatables/dataTables.bootstrap4.js' %} "></script>
+        <script type="text/javascript" src=" {% static 'core/plugins/izitoast/js/iziToast.min.js' %} "></script>
+        <script type="text/javascript" src=" {% static 'core/js/main.js' %} "></script>
+        <script type="text/javascript" src=" {% static 'core/js/tabletoexcel.js' %} "></script>
+    </body>
+</html>

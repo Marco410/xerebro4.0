@@ -1,0 +1,40 @@
+
+{% extends 'registration/base.html' %}
+{% block title %}Ingresar{% endblock %}
+{% block content %}
+     {% load static %}
+<div class="wrapper fadeInDown">
+     <div class="col-sm-12" >
+     {% if form.non_field_errors %}
+         
+    <script type="text/javascript" src=" {% static 'core/plugins/izitoast/js/iziToast.min.js' %} "></script>
+      <script>
+         iziToast.error({
+                timeout: 3000,
+                title: 'Error',
+                position: 'topRight',
+                message: 'Usuario o contraseña incorrectos',
+            });
+          </script>
+         {% endif %}
+       </div>
+  <div id="formContent">
+    <div class="fadeIn first">
+      <img class="responsive-img" src="{% static '/core/assets/'  %}logo.png" width="150px" height="90px" alt="Xerebro" />
+    </div>
+
+    <form method="post" >
+        {% csrf_token %} 
+      <input type="text" id="username" class="fadeIn second" name="username" autocomplete="username" placeholder="Usuario">
+      <input type="password" id="password"  class="fadeIn third" name="password" placeholder="Contraseña">
+        <button type="submit" class="fadeIn fourth" value="">Iniciar Sesión</button>
+    </form>
+      
+    <div id="formFooter">
+      <a class="underlineHover" href="{% url 'password_reset' %}">¿Has olvidado tu contraseña?</a>
+    </div>
+
+  </div>
+</div>
+
+    {% endblock content %}

@@ -1,0 +1,49 @@
+{% extends 'analisis/base.html' %}
+{% block title %}Perfil{% endblock %}
+{% block content %}
+{% include 'analisis/nav.html'  %}
+<div class="col s8 offset-s3" style="with = 400px " > 
+<div class="card " >
+
+<div class="card-panel" >
+    
+        <div class="col s12 center"  ><h4>Mi Perfil</h4></div>
+        <div class="row"  >
+        <form method="post" enctype="multipart/form-data" class="col s12" >{% csrf_token %}
+        <div class="col s2 center" >
+            {% if request.user.profile.avatar %}
+            <img src="{{ request.user.profile.avatar.url }}" class="responsive-img circle" with="100px" heigth="100px" />
+            <p class="s1" ><label>
+                        <input type="checkbox" name="avatar-clear"  />
+                        <span>Borrar Imagen</span>
+                    </label></p>
+               {%else%}
+            <img src="/media/user.png" width="130px" height="130px" />
+                  
+                {% endif %}    
+        </div>
+            <div class="col s10">
+                 <div class="file-field input-field">
+                    <div class="btn">
+                        <span>Seleccione Imagen</span>
+                        <input type="file" name="avatar" id="id_avatar">
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate"  type="text" >
+                    </div>
+                    </div>   
+                {{ form.bio }}
+                {{ form.link }}
+                <input type="email" value="{{ request.user.email }}" readonly />
+                <p>Si deseas editar tu email, <a href="{% url 'profile_email' %}">click aqui</a></p>
+                <p>Si deseas cambiar tu contraseña, <a href="{% url 'password_change' %}">click aqui</a></p>
+                 <input type="submit" class="btn   col s12 borde" value="Actualizar">
+            </div>
+           
+      
+        </form>
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock %}

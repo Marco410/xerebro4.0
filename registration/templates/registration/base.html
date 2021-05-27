@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+     {% load static %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="{% static 'core/css/misite.css' %} " />
+    <link type="text/css" rel="stylesheet" href="{% static 'core/plugins/izitoast/css/iziToast.min.css' %} " />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    
+    <title>Xerebro | {% block title %}{% endblock %}</title>
+</head>
+
+<body >
+    <main>
+        {% block content %}
+        {% endblock content %} 
+    </main>
+    
+</body>
+</html>
